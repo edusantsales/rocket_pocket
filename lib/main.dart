@@ -1,20 +1,28 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
+import 'home_view.dart';
 
 void main() {
-  runApp(const MainApp());
+  final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  scheduleMicrotask(() async {
+    await Future<void>.delayed(const Duration(seconds: 3));
+    FlutterNativeSplash.remove();
+  });
+  runApp(const RocketPocketApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class RocketPocketApp extends StatelessWidget {
+  const RocketPocketApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      home: HomeView(),
+      title: 'Rocket Pocket',
     );
   }
 }
