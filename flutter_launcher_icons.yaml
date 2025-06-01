@@ -1,0 +1,17 @@
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/rocketseat-logo.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: false
+    background_color: "#9556F6"
+    image_path: "assets/rocketseat-logo.png"
+    theme_color: "#9556F6"
+  windows:
+    generate: false
+    icon_size: 48 # min:48, max:256, default: 48
+    image_path: "assets/rocketseat-logo.png"
+  macos:
+    generate: false
+    image_path: "assets/rocketseat-logo.png"
