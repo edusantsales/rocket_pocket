@@ -85,22 +85,34 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 0,
+        toolbarHeight: 4,
+      ),
+      backgroundColor: primaryColor,
       body: ValueListenableBuilder<int>(
         valueListenable: _homeController.loadingProgress,
         builder: (BuildContext context, int progress, Widget? child) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (child != null) Expanded(child: child) else const SizedBox.shrink(),
               if (progress < 100)
-                LinearProgressIndicator(
-                  backgroundColor: Colors.white,
-                  color: RocketPocketApp.primaryColor,
-                  minHeight: 4,
-                  value: progress / 100,
+                TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0, end: progress / 100),
+                  duration: Durations.extralong4,
+                  builder: (BuildContext context, double value, Widget? child) {
+                    return LinearProgressIndicator(
+                      backgroundColor: Colors.white,
+                      color: Colors.lightBlueAccent,
+                      minHeight: 2,
+                      value: value,
+                    );
+                  },
                 ),
+              if (child != null) Expanded(child: child) else const SizedBox.shrink(),
             ],
           );
         },
