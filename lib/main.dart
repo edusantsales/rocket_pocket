@@ -18,10 +18,17 @@ void main() {
 class RocketPocketApp extends StatelessWidget {
   const RocketPocketApp({super.key});
 
+  static Color get primaryColor => const Color(0xFF9556F6);
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeView(),
+    return MaterialApp(
+      home: const HomeView(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
+        primaryColor: primaryColor,
+        useMaterial3: true,
+      ),
       title: 'Rocket Pocket',
     );
   }
