@@ -1,8 +1,35 @@
 import 'package:flutter/material.dart';
 
+import '../../data/services/webview_service.dart';
+import '../../env.dart';
+
 class HomeController {
-  final String baseURL = const String.fromEnvironment('BASE_URL');
-  final ValueNotifier<int> loadingProgress = ValueNotifier<int>(0);
+  final WebViewService webViewService = WebViewService();
+
+  ValueNotifier<int> get webViewLoadingProgress => webViewService.loadingProgress;
+  Widget get webViewWidget => webViewService.webViewWidget;
+
+  void setupWebView(Color primaryColor) => webViewService.setupWebView(primaryColor, setupJavaScripts);
+
+  void loadBaseURLRequest() => webViewService.loadRequest(Uri.parse(Env.baseURL));
+
+  // Inject JavaScript into the WebView after a delay.
+  // This method is called to set up the JavaScript functions that will hide certain UI elements in the Rocketseat app.
+  // It uses a delay to ensure that the WebView has fully loaded before injecting the scripts.
+  // The injected scripts hide the search button, Boost button, notifications button, and menu button, and disable bounce scroll physics in the WebView.
+  // The scripts are run in parallel using Future.wait to improve performance.
+  // This method is typically called after the WebView has finished loading the initial page.
+  // It is important to ensure that the WebView is fully loaded before injecting the scripts, as injecting scripts too early may result in them not being applied correctly.
+  Future<void> setupJavaScripts() async {
+    await Future<void>.delayed(Durations.extralong4);
+    Future.wait(<Future<void>>[
+      webViewService.runJavaScript(hideSearchButton()),
+      webViewService.runJavaScript(hideBoostButton()),
+      webViewService.runJavaScript(hideNotificationsButton()),
+      webViewService.runJavaScript(hideMenuButton()),
+      webViewService.runJavaScript(disableBounceScrollPhysics()),
+    ]);
+  }
 
   // Hide the search button in the Rocketseat app.
   // This script is injected into the WebView to hide the search button after the page has loaded.
