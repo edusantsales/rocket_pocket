@@ -79,13 +79,13 @@ class WebViewService {
           },
         ),
       )
-      ..loadRequest(Uri.parse(Env.baseURL));
+      ..loadRequest(Uri.parse(Env.baseUrl + Env.catalog));
   }
 
   /// Loads the URL into the WebView.
-  Future<void> loadRequest(Uri uri) async {
+  Future<void> loadRequest(String path) async {
     try {
-      await _controller.loadRequest(uri);
+      await _controller.loadRequest(Uri.parse(Env.baseUrl + path));
     } catch (e) {
       log('Error loading URL: $e');
     }
