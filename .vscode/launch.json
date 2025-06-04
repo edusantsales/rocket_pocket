@@ -8,8 +8,8 @@
             "program": "lib/main.dart",
             "flutterMode": "debug",
             "toolArgs": [
-                "--dart-define",
-                "BASE_URL=https://app.rocketseat.com.br/my-content/in-progress",
+                "--dart-define-from-file",
+                "${workspaceFolder}/.vscode/env.json",
             ],
         },
         {
@@ -19,8 +19,8 @@
             "program": "lib/main.dart",
             "flutterMode": "profile",
             "toolArgs": [
-                "--dart-define",
-                "BASE_URL=https://app.rocketseat.com.br/my-content/in-progress",
+                "--dart-define-from-file",
+                "${workspaceFolder}/.vscode/env.json",
             ],
         },
         {
@@ -30,8 +30,8 @@
             "program": "lib/main.dart",
             "flutterMode": "release",
             "toolArgs": [
-                "--dart-define",
-                "BASE_URL=https://app.rocketseat.com.br/my-content/in-progress",
+                "--dart-define-from-file",
+                "${workspaceFolder}/.vscode/env.json",
             ],
         }
     ],
