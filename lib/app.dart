@@ -15,6 +15,7 @@ class RocketPocketApp extends StatelessWidget {
       home: const HomeView(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
+        fontFamily: 'Plus Jakarta Sans',
         indicatorColor: loadingColor,
         primaryColor: primaryColor,
         scaffoldBackgroundColor: backgroundColor,
