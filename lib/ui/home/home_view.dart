@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'home_controller.dart';
 
@@ -13,12 +12,12 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final HomeController _homeController = HomeController();
 
+  ValueNotifier<int> menuIndex = ValueNotifier<int>(0);
+
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _homeController.setupWebView(Theme.of(context).primaryColor);
-      await Future<void>.delayed(Durations.extralong4 * 5);
-      FlutterNativeSplash.remove();
     });
     super.initState();
   }
@@ -28,7 +27,6 @@ class _HomeViewState extends State<HomeView> {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(backgroundColor: theme.primaryColor, elevation: 0, toolbarHeight: 2),
-      backgroundColor: theme.primaryColor,
       body: ValueListenableBuilder<int>(
         valueListenable: _homeController.webViewLoadingProgress,
         builder: (_, int progress, __) {
@@ -52,22 +50,55 @@ class _HomeViewState extends State<HomeView> {
                     children: <Widget>[
                       _homeController.webViewWidget,
                       Positioned(
-                        top: 2,
-                        left: 2,
+                        top: 4,
+                        left: 4,
                         right: 72,
-                        child: AppBar(backgroundColor: theme.scaffoldBackgroundColor, elevation: 0, toolbarHeight: 68),
+                        child: AppBar(backgroundColor: Colors.transparent, elevation: 0, toolbarHeight: 56),
                       ),
                       Positioned(
-                        top: 12,
-                        left: 14,
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(20),
-                            // Handle logo tap, e.g., navigate to home or refresh.
-                            onTap: () => _homeController.loadBaseURLRequest(),
-                            child: Image.asset('assets/rocketseat-logo-transparent.png', width: 48, height: 48),
-                          ),
+                        left: 24,
+                        right: 24,
+                        bottom: 24,
+                        child: ValueListenableBuilder<int>(
+                          valueListenable: menuIndex,
+                          builder: (_, int currentIndex, __) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(32),
+                              child: BottomNavigationBar(
+                                backgroundColor: theme.primaryColor,
+                                currentIndex: currentIndex,
+                                elevation: 0,
+                                items: <BottomNavigationBarItem>[
+                                  BottomNavigationBarItem(
+                                    backgroundColor: theme.primaryColor,
+                                    icon: const Icon(Icons.menu_book_outlined),
+                                    label: 'Catálogo',
+                                  ),
+                                  BottomNavigationBarItem(
+                                    backgroundColor: theme.primaryColor,
+                                    icon: const Icon(Icons.collections_bookmark_outlined),
+                                    label: 'Meus conteúdos',
+                                  ),
+                                ],
+                                onTap: (int index) {
+                                  menuIndex.value = index;
+                                  if (currentIndex != index) {
+                                    switch (index) {
+                                      case 0:
+                                        _homeController.loadCatalogRequest();
+                                      case 1:
+                                        _homeController.loadMyContentRequest();
+                                    }
+                                  }
+                                },
+                                selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
+                                selectedItemColor: Colors.white,
+                                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
+                                unselectedItemColor: Colors.white60,
+                                type: BottomNavigationBarType.shifting,
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
