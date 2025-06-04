@@ -9,6 +9,8 @@
 - [Flutter Launcher Icons](https://pub.dev/packages/flutter_launcher_icons)
 - [Flutter Native Splash](https://pub.dev/packages/flutter_native_splash)
 - [Web View Flutter](https://pub.dev/packages/webview_flutter)
+- [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+- [DOM](https://developer.mozilla.org/pt-BR/docs/Web/API/Document_Object_Model/Introduction)
 
 ## ✨ Funcionalidades
 
