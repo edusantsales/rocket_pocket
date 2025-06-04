@@ -11,7 +11,8 @@ class HomeController {
 
   void setupWebView(Color primaryColor) => webViewService.setupWebView(primaryColor, setupJavaScripts);
 
-  void loadBaseURLRequest() => webViewService.loadRequest(Uri.parse(Env.baseURL));
+  void loadCatalogRequest() => webViewService.loadRequest(Env.catalog);
+  void loadMyContentRequest() => webViewService.loadRequest(Env.myContent);
 
   // Inject JavaScript into the WebView after a delay.
   // This method is called to set up the JavaScript functions that will hide certain UI elements in the Rocketseat app.
@@ -34,34 +35,64 @@ class HomeController {
   // Hide the search button in the Rocketseat app.
   // This script is injected into the WebView to hide the search button after the page has loaded.
   String hideSearchButton() {
+    // The first button in the list is the search button, which we want to hide.
+    // The buttons are selected using a CSS selector that targets all buttons within a specific div structure.
+    // The style.display property is set to 'none' to hide the button.
+    // This is useful for users who do not want to see the search button in the Rocketseat app.
     return "document.querySelectorAll('div.flex.items-center.gap-3 button')[0].style.display = 'none';";
   }
 
 // Hide the Boost button in the Rocketseat app.
 // This script is injected into the WebView to hide the Boost button after the page has loaded.
   String hideBoostButton() {
+    // The second button in the list is the Boost button, which we want to hide.
+    // The buttons are selected using a CSS selector that targets all buttons within a specific div structure.
+    // The style.display property is set to 'none' to hide the button.
+    // This is useful for users who do not want to see the Boost button in the Rocketseat app.
     return "document.querySelectorAll('div.flex.items-center.gap-3 button')[1].style.display = 'none';";
   }
 
 // Hide the notifications button in the Rocketseat app.
 // This script is injected into the WebView to hide the notifications button after the page has loaded.
   String hideNotificationsButton() {
+    // The third button in the list is the notifications button, which we want to hide.
+    // The buttons are selected using a CSS selector that targets all buttons within a specific div structure.
+    // The style.display property is set to 'none' to hide the button.
+    // This is useful for users who do not want to see notifications in the Rocketseat app.
     return "document.querySelectorAll('div.flex.items-center.gap-3 button')[2].style.display = 'none';";
   }
 
 // Hide the menu button in the Rocketseat app.
 // This script is injected into the WebView to hide the menu button after the page has loaded.
   String hideMenuButton() {
-    return "document.querySelectorAll('div.flex.shrink-0.items-center')[0].remove();";
+    return """
+      // Check if the document head is available
+      // This is important to ensure that we can append styles to the head
+      // The menu button is identified by its ID 'menu-toggle'
+      // The script creates a style element and appends it to the head of the document
+      if (document.head) {
+        // Select the menu button by its ID and hide it
+        const style = document.createElement('style');
+        // This style hides the menu button with ID 'menu-toggle'
+        style.innerHTML = 'button#menu-toggle {display: none;}';
+        // Append the style element to the head
+        // This ensures that the menu button is hidden after the page has loaded
+        document.head.appendChild(style);
+      }
+    """;
   }
 
 // Disable bounce scroll physics in the Rocketseat app.
 // This script is injected into the WebView to disable bounce scroll physics after the page has loaded.
   String disableBounceScrollPhysics() {
-    const String command1 = "document.body.style.overflow = 'hidden';";
-    const String command2 = "document.documentElement.style.overflow = 'hidden';";
-    const String command3 = """
+    return """
+      // Disable bounce scroll physics in the WebView
+      document.body.style.overflow = 'hidden';
+      // Prevent overscroll behavior
+      document.documentElement.style.overflow = 'hidden';
+      // Add a style element to the head to ensure no bounce scroll physics
       const style = document.createElement('style');
+      // This style ensures that the WebView does not have bounce scroll physics
       style.innerHTML = `
         html, body {
           overscroll-behavior: none;
@@ -69,9 +100,8 @@ class HomeController {
           touch-action: none;
         }
       `;
+      // Append the style element to the head
       document.head.appendChild(style);
     """;
-    const String commands = '$command1 $command2 $command3';
-    return commands;
   }
 }
