@@ -66,20 +66,10 @@ class WebViewService {
           onNavigationRequest: (NavigationRequest request) {
             // Handle navigation request.
             log('Navigation request: ${request.url}');
-            // if (!request.url.startsWith(baseURL)) {
-            //   // If the URL does not match the base URL, reload it.
-            //   _webViewController.loadRequest(Uri.parse(baseURL));
-            //   return NavigationDecision.prevent;
-            // }
-            // https://app.rocketseat.com.br/login
-            // Page started loading: https://github.com/login/oauth/authorize
-            // Page finished loading: https://app.rocketseat.com.br/github/
-            // Navigation request: https://github.com/login/oauth/authorize
             return NavigationDecision.navigate;
           },
         ),
-      )
-      ..loadRequest(Uri.parse(Env.baseUrl + Env.catalog));
+      );
   }
 
   /// Loads the URL into the WebView.
@@ -94,11 +84,13 @@ class WebViewService {
   /// Method to run JavaScript in the WebView.
   /// This method allows you to execute JavaScript code in the context of the WebView.
   Future<void> runJavaScript(String script) async {
+    await Future<void>.delayed(Durations.medium1);
     try {
       await _controller.runJavaScript(script);
     } catch (e) {
       log('Error running JavaScript: $e');
     }
+    await Future<void>.delayed(Durations.short1);
   }
 
   /// Returns a WebViewWidget with the configured controller.
