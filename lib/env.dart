@@ -4,6 +4,8 @@ class Env {
     'LOGIN': String.fromEnvironment('LOGIN'),
     'CATALOG': String.fromEnvironment('CATALOG'),
     'MY_CONTENT': String.fromEnvironment('MY_CONTENT'),
+    'ACCOUNT': String.fromEnvironment('ACCOUNT'),
+    'PROFILE': String.fromEnvironment('PROFILE'),
   };
 
   static String _fromJson(String key) {
@@ -18,4 +20,6 @@ class Env {
   static String get login => _fromJson('LOGIN');
   static String get catalog => _fromJson('CATALOG');
   static String get myContent => _fromJson('MY_CONTENT');
+  static String get account => _fromJson('ACCOUNT');
+  static String get profile => _fromJson('PROFILE');
 }
